@@ -1,0 +1,7 @@
+int x;
+// this is a single line comment
+x = 5;
+/* this is a
+   block comment spanning lines */
+y = x @ 2;
+print y;
