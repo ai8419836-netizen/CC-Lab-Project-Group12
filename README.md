@@ -117,17 +117,7 @@ cd your-repository
 Rename your repository using the following format:
 
 ```
-CC-Lab-Project-GroupXX
-```
-
-Examples
-
-```
-CC-Lab-Project-Group01
-
-CC-Lab-Project-Group05
-
-CC-Lab-Project-Group12
+CC-Lab-Project-GroupName
 ```
 
 
