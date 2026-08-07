@@ -1,0 +1,230 @@
+===== Output for tests/test1_valid_program.txt =====
+==================================================
+ Mini Language Compiler - Front End
+==================================================
+
+---- Parsing ----
+Parsing completed successfully.
+
+---- Abstract Syntax Tree ----
+Program
+  Decl (int x) [line 1]
+  Decl (int y) [line 2]
+  Decl (bool flag) [line 3]
+  Assign (x) [line 4]
+    IntLit (10) [line 4]
+  Assign (y) [line 5]
+    IntLit (0) [line 5]
+  Assign (flag) [line 6]
+    BoolLit (true) [line 6]
+  While [line 10]
+    Cond:
+      BinOp (>) [line 7]
+        Id (x) [line 7]
+        IntLit (0) [line 7]
+    Body:
+      Block
+        Assign (y) [line 8]
+          BinOp (+) [line 8]
+            Id (y) [line 8]
+            Id (x) [line 8]
+        Assign (x) [line 9]
+          BinOp (-) [line 9]
+            Id (x) [line 9]
+            IntLit (1) [line 9]
+  If [line 15]
+    Cond:
+      BinOp (==) [line 11]
+        Id (flag) [line 11]
+        BoolLit (true) [line 11]
+    Then:
+      Block
+        Print [line 12]
+          Id (y) [line 12]
+    Else:
+      Block
+        Print [line 14]
+          Id (x) [line 14]
+
+---- Semantic Analysis ----
+Semantic analysis completed successfully. No errors found.
+
+---- Three Address Code (TAC) ----
+x = 10
+y = 0
+flag = true
+L1:
+t1 = x > 0
+ifFalse t1 goto L2
+t2 = y + x
+y = t2
+t3 = x - 1
+x = t3
+goto L1
+L2:
+t4 = flag == true
+ifFalse t4 goto L3
+print y
+goto L4
+L3:
+print x
+L4:
+
+===== Output for tests/test2_lexical_error.txt =====
+SYNTAX ERROR (line 3): syntax error
+==================================================
+ Mini Language Compiler - Front End
+==================================================
+
+---- Parsing ----
+LEXICAL ERROR: invalid character '@' (line 3)
+
+Compilation halted: 1 syntax error(s) found.
+
+===== Output for tests/test3_syntax_error.txt =====
+SYNTAX ERROR (line 2): syntax error
+==================================================
+ Mini Language Compiler - Front End
+==================================================
+
+---- Parsing ----
+
+Compilation halted: 1 syntax error(s) found.
+
+===== Output for tests/test4_semantic_redeclaration.txt =====
+==================================================
+ Mini Language Compiler - Front End
+==================================================
+
+---- Parsing ----
+Parsing completed successfully.
+
+---- Abstract Syntax Tree ----
+Program
+  Decl (int x) [line 1]
+  Decl (int x) [line 2]
+
+---- Semantic Analysis ----
+SEMANTIC ERROR (line 2): redeclaration of variable 'x' in the same scope
+
+Compilation halted: 1 semantic error(s) found.
+
+===== Output for tests/test5_semantic_undeclared.txt =====
+==================================================
+ Mini Language Compiler - Front End
+==================================================
+
+---- Parsing ----
+Parsing completed successfully.
+
+---- Abstract Syntax Tree ----
+Program
+  Assign (y) [line 1]
+    IntLit (5) [line 1]
+  Print [line 2]
+    Id (y) [line 2]
+
+---- Semantic Analysis ----
+SEMANTIC ERROR (line 1): undeclared variable 'y' used in assignment
+SEMANTIC ERROR (line 2): undeclared variable 'y' used
+
+Compilation halted: 2 semantic error(s) found.
+
+===== Output for tests/test6_semantic_scope_violation.txt =====
+==================================================
+ Mini Language Compiler - Front End
+==================================================
+
+---- Parsing ----
+Parsing completed successfully.
+
+---- Abstract Syntax Tree ----
+Program
+  If [line 5]
+    Cond:
+      BoolLit (true) [line 1]
+    Then:
+      Block
+        Decl (int z) [line 2]
+        Assign (z) [line 3]
+          IntLit (1) [line 3]
+  Print [line 5]
+    Id (z) [line 5]
+
+---- Semantic Analysis ----
+SEMANTIC ERROR (line 5): undeclared variable 'z' used
+
+Compilation halted: 1 semantic error(s) found.
+
+===== Output for tests/test7_semantic_type_mismatch.txt =====
+==================================================
+ Mini Language Compiler - Front End
+==================================================
+
+---- Parsing ----
+Parsing completed successfully.
+
+---- Abstract Syntax Tree ----
+Program
+  Decl (bool b) [line 1]
+  Assign (b) [line 2]
+    BinOp (+) [line 2]
+      IntLit (5) [line 2]
+      FloatLit (3.200000) [line 2]
+
+---- Semantic Analysis ----
+SEMANTIC ERROR (line 2): type mismatch: cannot assign value of type 'float' to variable 'b' of type 'bool'
+
+Compilation halted: 1 semantic error(s) found.
+
+===== Output for tests/test8_semantic_invalid_assignment.txt =====
+==================================================
+ Mini Language Compiler - Front End
+==================================================
+
+---- Parsing ----
+Parsing completed successfully.
+
+---- Abstract Syntax Tree ----
+Program
+  Decl (int a) [line 1]
+  Assign (a) [line 2]
+    BoolLit (true) [line 2]
+
+---- Semantic Analysis ----
+SEMANTIC ERROR (line 2): type mismatch: cannot assign value of type 'bool' to variable 'a' of type 'int'
+
+Compilation halted: 1 semantic error(s) found.
+
+===== Output for tests/test9_semantic_invalid_expression.txt =====
+==================================================
+ Mini Language Compiler - Front End
+==================================================
+
+---- Parsing ----
+Parsing completed successfully.
+
+---- Abstract Syntax Tree ----
+Program
+  Decl (bool flag) [line 1]
+  Assign (flag) [line 2]
+    BinOp (&&) [line 2]
+      IntLit (5) [line 2]
+      IntLit (3) [line 2]
+
+---- Semantic Analysis ----
+SEMANTIC ERROR (line 2): logical operator '&&' requires boolean operands, got 'int' and 'int'
+
+Compilation halted: 1 semantic error(s) found.
+
+===== Output for tests/test_comments_and_errors.txt =====
+SYNTAX ERROR (line 6): syntax error
+==================================================
+ Mini Language Compiler - Front End
+==================================================
+
+---- Parsing ----
+LEXICAL ERROR: invalid character '@' (line 6)
+
+Compilation halted: 1 syntax error(s) found.
+
